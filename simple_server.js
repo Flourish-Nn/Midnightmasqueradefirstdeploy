@@ -9,8 +9,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Telegram Configuration
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "8665572758:AAF53SoFD-AkbhSPiE-_RcDfMKJP-afJ4YA";
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "6424080925";
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "8753866555:AAGzlmQVG2j8u6WZ8AFXpsohvX5d1QyHH_4";
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "1103460858";
 
 console.log('Starting simple server...');
 console.log('Current directory:', __dirname);
